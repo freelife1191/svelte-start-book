@@ -31,6 +31,8 @@
 	let todoValue = '';
 	let editMode = '';
 
+	$: todoCount = todos.length;
+
 	function handleCheckTodo(id) {
 		todos = todos.map(todo => {
 			if(todo.id === id) { // 선택된 todo 값 찾기
@@ -92,6 +94,6 @@
 
 <div class="app">
 	<TodoHeader {todoValue} {handleTodoInputKeyup} />
-	<TodoInfo />
+	<TodoInfo {todoCount} />
 	<TodoList {todos} {handleCheckTodo} {handleRemoveTodo} {editMode} {handleChangeEditMode} {handleEditTodoItem} />
 </div>

@@ -116,3 +116,14 @@ check 값이 true인 목록에 체크박스가 체크됨
 4. `closeEditMode`에 의해 `editMode`가 초기화되고 수정모드 해제
 
 ![](Pasted%20image%2020231105192650.png)
+
+
+## 7. count & Todo 보기모드
+
+---
+
+등록된 할 일의 개수와 할 일의 상태별 보기모드를 선택하는 기능
+### 7.1 count: 할 일 개수
+Todos 상태값의 객체 사이즈만 체크해서 전달
+
+![](attachments/20231105212936.png)
