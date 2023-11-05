@@ -127,3 +127,22 @@ check 값이 true인 목록에 체크박스가 체크됨
 Todos 상태값의 객체 사이즈만 체크해서 전달
 
 ![](attachments/20231105212936.png)
+
+### 7.2 보기모드: 모두 보기 ∙ 진행 ∙ 완료
+보기모드 **ALL(모두 보기)**, **ACTIVE(진행)**, **DONE(완료)** 구현
+
+```js
+// filter를 이용해 todo.done이 true인 값으로 todos 재할당
+todos = todos.filter(todo => todo.done === true)
+```
+
+`$: {}` 블록 안에 있는 값들은 특별한 호출이 없이도 상태값에 따라서 선언적으로 작동된다
+
+- **ALL(모두 보기)**: `fetchTodos = Todos`
+- **ACTIVE(todo.done 이 false인 경우)**: `fetchTodos = todos.filter(todo => todo.done === false);`
+- **DONE(todo.done이 true인 경우)**: `fetchTodos = todos.filter(todo => todo.done === true);`
+
+`constant.js` **상수(변하지 않는 값)** 를 만들어 사용
+
+![](attachments/20231105214902.png)
+

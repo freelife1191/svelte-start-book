@@ -2,6 +2,7 @@
   import TodoHeader from './components/TodoHeader.svelte';
   import TodoInfo from './components/TodoInfo.svelte';
   import TodoList from './components/TodoList.svelte';
+	import Constant from './constant';
 
 	import { v4 as uuid } from 'uuid';
 
@@ -30,8 +31,17 @@
 
 	let todoValue = '';
 	let editMode = '';
+	let viewMode = Constant.ALL;
 
-	$: todoCount = todos.length;
+	$: todoCount = fetchTodos.length; // 선택된 모드에 따른 할 일 개수가 나타나도록
+
+	$: fetchTodos = todos;
+
+	$: {
+		if(viewMode === Constant.ALL) fetchTodos = todos;
+		if(viewMode === Constant.ACTIVE) fetchTodos = todos.filter(todo => todo.done === false);
+		if(viewMode === Constant.DONE) fetchTodos = todos.filter(todo => todo.done === true);
+	}
 
 	function handleCheckTodo(id) {
 		todos = todos.map(todo => {
@@ -90,10 +100,14 @@
 	function closeEditMode() {
 		editMode = '';
 	}
+
+	function handleChangeViewMode(mode) {
+		viewMode = mode;
+	}
 </script>
 
 <div class="app">
 	<TodoHeader {todoValue} {handleTodoInputKeyup} />
-	<TodoInfo {todoCount} />
-	<TodoList {todos} {handleCheckTodo} {handleRemoveTodo} {editMode} {handleChangeEditMode} {handleEditTodoItem} />
+	<TodoInfo {todoCount} {viewMode} {handleChangeViewMode} />
+	<TodoList {fetchTodos} {handleCheckTodo} {handleRemoveTodo} {editMode} {handleChangeEditMode} {handleEditTodoItem} />
 </div>
