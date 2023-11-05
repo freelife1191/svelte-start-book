@@ -146,3 +146,9 @@ todos = todos.filter(todo => todo.done === true)
 
 ![](attachments/20231105214902.png)
 
+
+## 8. 화면전환 효과 적용
+
+---
+
+TodoList 컴포넌트에 `transition` 기능 추가
