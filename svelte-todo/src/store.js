@@ -149,3 +149,36 @@ function setTodoData() {
     changeTodoView
   }
 }
+
+function setFetchTodos() {
+  const fetch = derived(todos, $todos => {
+
+    if($todos.viewMode === Constant.ACTIVE) {
+      return $todos.todoLists.filter(todo => todo.done === false)
+    }
+
+    if($todos.viewMode === Constant.DONE) {
+      return $todos.todoLists.filter(todo => todo.done === true)
+    }
+
+    if($todos.viewMode === Constant.ALL) {
+      return $todos.todoLists;
+    }
+
+  });
+
+  return fetch
+}
+
+function setCountTodo() {
+  const count = derived(fetchTodos, $fetchTodos => { // fetchTodos를 참조
+    return $fetchTodos.length
+  })
+
+  return count
+}
+
+export const todoForm = setFormTodo()
+export const todos = setTodoData()
+export const fetchTodos = setFetchTodos()
+export const countTodo = setCountTodo()

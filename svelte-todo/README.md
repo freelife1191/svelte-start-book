@@ -181,3 +181,8 @@ update(
   }
 )
 ```
+
+### 9.2 fetchTods ∙ countTodo 작성
+`derived` 스토어를 이용해 보기모드에 따른 할 일 목록 출력을 하는 fetchTodos 스토어와 할 일 개수를 보여줄 countTodo 스토어를 작성
+`derived`는 이미 만든 스토어를 바탕으로 새로운 스토어를 만들 때 사용
+`derived`를 이용하면 원본을 손상시키지 않고 참조만 해서 데이터를 원하는 결과물로 만들어 사용이 가능
