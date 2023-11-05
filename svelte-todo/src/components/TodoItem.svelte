@@ -13,7 +13,7 @@
     on:click={() => handleCheckTodo(todo.id)}
 >
 {#if editMode === todo.id}
-  <input type="text" bind:value={todo.content} on:focusout={() => {handleEditTodoItem(todo)}} />
+  <input type="text" bind:value={todo.content} on:keyup={(e) => {handleEditTodoItem(e, todo)}} />
 {:else}
   <span on:dblclick={() => handleChangeEditMode(todo.id)} >{todo.content}</span>
 {/if}

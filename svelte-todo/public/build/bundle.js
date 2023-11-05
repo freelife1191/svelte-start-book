@@ -805,7 +805,7 @@ var app = (function () {
     		c: function create() {
     			span = element("span");
     			t = text(t_value);
-    			add_location(span, file$2, 17, 2, 429);
+    			add_location(span, file$2, 17, 2, 430);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -856,7 +856,7 @@ var app = (function () {
     			if (!mounted) {
     				dispose = [
     					listen_dev(input, "input", /*input_input_handler*/ ctx[8]),
-    					listen_dev(input, "focusout", /*focusout_handler*/ ctx[9], false, false, false, false)
+    					listen_dev(input, "keyup", /*keyup_handler*/ ctx[9], false, false, false, false)
     				];
 
     				mounted = true;
@@ -912,7 +912,7 @@ var app = (function () {
     			attr_dev(input, "type", "checkbox");
     			add_location(input, file$2, 9, 0, 191);
     			attr_dev(a, "href", "#null");
-    			add_location(a, file$2, 19, 0, 514);
+    			add_location(a, file$2, 19, 0, 515);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1037,8 +1037,8 @@ var app = (function () {
     		$$invalidate(0, todo);
     	}
 
-    	const focusout_handler = () => {
-    		handleEditTodoItem(todo);
+    	const keyup_handler = e => {
+    		handleEditTodoItem(e, todo);
     	};
 
     	const dblclick_handler = () => handleChangeEditMode(todo.id);
@@ -1085,7 +1085,7 @@ var app = (function () {
     		input_change_handler,
     		click_handler,
     		input_input_handler,
-    		focusout_handler,
+    		keyup_handler,
     		dblclick_handler,
     		click_handler_1
     	];
@@ -1603,7 +1603,7 @@ var app = (function () {
     			t1 = space();
     			create_component(todolist.$$.fragment);
     			attr_dev(div, "class", "app");
-    			add_location(div, file, 86, 0, 1413);
+    			add_location(div, file, 92, 0, 1504);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1728,10 +1728,17 @@ var app = (function () {
     		$$invalidate(2, editMode = id);
     	}
 
-    	function handleEditTodoItem(editTodo) {
+    	function handleEditTodoItem(e, editTodo) {
+    		if (e.keyCode === 13) {
+    			// 엔터 인식
+    			editTodoItem(editTodo);
+    		}
+    	}
+
+    	function editTodoItem(editTodo) {
     		$$invalidate(0, todos = todos.map(todo => {
     			if (todo.id === editTodo.id) {
-    				todo.content = editTodo.content;
+    				todo = editTodo;
     			}
 
     			return todo;
@@ -1764,6 +1771,7 @@ var app = (function () {
     		handleRemoveTodo,
     		handleChangeEditMode,
     		handleEditTodoItem,
+    		editTodoItem,
     		closeEditMode
     	});
 

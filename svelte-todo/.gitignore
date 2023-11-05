@@ -5,6 +5,7 @@
 # Svelte
 .DS_Store
 node_modules
+public/build
 /build
 /.svelte-kit
 /package

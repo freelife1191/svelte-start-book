@@ -68,10 +68,16 @@
 		editMode = id;
 	}
 
-	function handleEditTodoItem(editTodo) {
+	function handleEditTodoItem(e, editTodo) {
+		if(e.keyCode === 13) { // 엔터 인식
+			editTodoItem(editTodo);
+		}
+	}
+
+	function editTodoItem(editTodo) {
 		todos = todos.map(todo => {
 			if(todo.id === editTodo.id) {
-				todo.content = editTodo.content;
+				todo = editTodo;
 			}
 			return todo;
 		});
