@@ -61,6 +61,7 @@ $ npm run dev
 
 ![](attachments/20231105164311.png)
 
+
 ## 3. Todo 리스트 출력
 
 ---
@@ -77,3 +78,18 @@ Todos 목록 상태값을 만들고 상태값과 메소드들은 Props를 통해
 
 check 값이 true인 목록에 체크박스가 체크됨
 ![](attachments/20231105171509.png)
+
+
+## 4. Todo 입력
+---
+
+할일이 추가되는 과정
+1. `input` 텍스트와 `todoValue`를 바인딩
+2. `input` 텍스트박스에 값을 입력하고 엔터를 치면 `handleTodoInputKeyup(e)`에서 엔터키 감지
+3. `handleTodoInputKeyup(e)`에 엔터키가 감지되면 `addTodoItem()`을 호출
+4. `addTodoItem()`은 Todos에 `todoValue`를 포함한 새로운 객체를 만들어 배열에 추가
+
+`TodoHeader` 컴포넌트에 바인딩을 이용해서 상태값은 양방향으로 연동
+
+![](attachments/20231105190230.png)
+

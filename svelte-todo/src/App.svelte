@@ -28,6 +28,8 @@
 		}
 	]
 
+	let todoValue = ''; // 추가
+
 	function handleCheckTodo(id) {
 		todos = todos.map(todo => {
 			if(todo.id === id) { // 선택된 todo 값 찾기
@@ -36,10 +38,30 @@
 			return todo;
 		})
 	}
+
+	function addTodoItem() { // 추가
+		if(todoValue) {
+			const newTodo = {
+				id: uuid(),
+				content: todoValue,
+				doen: false,
+			}
+
+			todos = [...todos, newTodo];
+			todoValue = '';
+		}
+	}
+
+	function handleTodoInputKeyup(e) { // 추가
+		if(e.keyCode === 13) {
+			todoValue = e.target.value; // 추가
+			addTodoItem();
+		}
+	}
 </script>
 
 <div class="app">
-	<TodoHeader />
+	<TodoHeader {todoValue} {handleTodoInputKeyup} /> <!-- 수정 -->
 	<TodoInfo />
 	<TodoList {todos} {handleCheckTodo} /> <!-- handleCheckTodo Props로 넘김 -->
 </div>

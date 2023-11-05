@@ -60,6 +60,9 @@ var app = (function () {
     function children(element) {
         return Array.from(element.childNodes);
     }
+    function set_input_value(input, value) {
+        input.value = value == null ? '' : value;
+    }
     function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
         const e = document.createEvent('CustomEvent');
         e.initCustomEvent(type, bubbles, cancelable, detail);
@@ -535,6 +538,8 @@ var app = (function () {
     	let h1;
     	let t1;
     	let input;
+    	let mounted;
+    	let dispose;
 
     	const block = {
     		c: function create() {
@@ -544,12 +549,12 @@ var app = (function () {
     			h1.textContent = "SVELTE TODO";
     			t1 = space();
     			input = element("input");
-    			add_location(h1, file$4, 2, 4, 34);
+    			add_location(h1, file$4, 7, 4, 112);
     			attr_dev(input, "type", "text");
-    			add_location(input, file$4, 3, 4, 64);
+    			add_location(input, file$4, 8, 4, 138);
     			attr_dev(div, "class", "wrap");
-    			add_location(div, file$4, 1, 2, 11);
-    			add_location(header, file$4, 0, 0, 0);
+    			add_location(div, file$4, 6, 2, 89);
+    			add_location(header, file$4, 5, 0, 78);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -560,12 +565,40 @@ var app = (function () {
     			append_dev(div, h1);
     			append_dev(div, t1);
     			append_dev(div, input);
+    			set_input_value(input, /*todoValue*/ ctx[0]);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[2]),
+    					listen_dev(
+    						input,
+    						"keyup",
+    						function () {
+    							if (is_function(/*handleTodoInputKeyup*/ ctx[1])) /*handleTodoInputKeyup*/ ctx[1].apply(this, arguments);
+    						},
+    						false,
+    						false,
+    						false,
+    						false
+    					)
+    				];
+
+    				mounted = true;
+    			}
     		},
-    		p: noop,
+    		p: function update(new_ctx, [dirty]) {
+    			ctx = new_ctx;
+
+    			if (dirty & /*todoValue*/ 1 && input.value !== /*todoValue*/ ctx[0]) {
+    				set_input_value(input, /*todoValue*/ ctx[0]);
+    			}
+    		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(header);
+    			mounted = false;
+    			run_all(dispose);
     		}
     	};
 
@@ -580,22 +613,56 @@ var app = (function () {
     	return block;
     }
 
-    function instance$4($$self, $$props) {
+    function instance$4($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('TodoHeader', slots, []);
-    	const writable_props = [];
+    	let { todoValue } = $$props;
+    	let { handleTodoInputKeyup } = $$props;
+
+    	$$self.$$.on_mount.push(function () {
+    		if (todoValue === undefined && !('todoValue' in $$props || $$self.$$.bound[$$self.$$.props['todoValue']])) {
+    			console.warn("<TodoHeader> was created without expected prop 'todoValue'");
+    		}
+
+    		if (handleTodoInputKeyup === undefined && !('handleTodoInputKeyup' in $$props || $$self.$$.bound[$$self.$$.props['handleTodoInputKeyup']])) {
+    			console.warn("<TodoHeader> was created without expected prop 'handleTodoInputKeyup'");
+    		}
+    	});
+
+    	const writable_props = ['todoValue', 'handleTodoInputKeyup'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<TodoHeader> was created with unknown prop '${key}'`);
     	});
 
-    	return [];
+    	function input_input_handler() {
+    		todoValue = this.value;
+    		$$invalidate(0, todoValue);
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('todoValue' in $$props) $$invalidate(0, todoValue = $$props.todoValue);
+    		if ('handleTodoInputKeyup' in $$props) $$invalidate(1, handleTodoInputKeyup = $$props.handleTodoInputKeyup);
+    	};
+
+    	$$self.$capture_state = () => ({ todoValue, handleTodoInputKeyup });
+
+    	$$self.$inject_state = $$props => {
+    		if ('todoValue' in $$props) $$invalidate(0, todoValue = $$props.todoValue);
+    		if ('handleTodoInputKeyup' in $$props) $$invalidate(1, handleTodoInputKeyup = $$props.handleTodoInputKeyup);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [todoValue, handleTodoInputKeyup, input_input_handler];
     }
 
     class TodoHeader extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$4, create_fragment$4, safe_not_equal, {});
+    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { todoValue: 0, handleTodoInputKeyup: 1 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -603,6 +670,22 @@ var app = (function () {
     			options,
     			id: create_fragment$4.name
     		});
+    	}
+
+    	get todoValue() {
+    		throw new Error("<TodoHeader>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set todoValue(value) {
+    		throw new Error("<TodoHeader>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get handleTodoInputKeyup() {
+    		throw new Error("<TodoHeader>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set handleTodoInputKeyup(value) {
+    		throw new Error("<TodoHeader>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -1178,13 +1261,21 @@ var app = (function () {
     	let t1;
     	let todolist;
     	let current;
-    	todoheader = new TodoHeader({ $$inline: true });
+
+    	todoheader = new TodoHeader({
+    			props: {
+    				todoValue: /*todoValue*/ ctx[1],
+    				handleTodoInputKeyup: /*handleTodoInputKeyup*/ ctx[3]
+    			},
+    			$$inline: true
+    		});
+
     	todoinfo = new TodoInfo({ $$inline: true });
 
     	todolist = new TodoList({
     			props: {
     				todos: /*todos*/ ctx[0],
-    				handleCheckTodo: /*handleCheckTodo*/ ctx[1]
+    				handleCheckTodo: /*handleCheckTodo*/ ctx[2]
     			},
     			$$inline: true
     		});
@@ -1198,7 +1289,7 @@ var app = (function () {
     			t1 = space();
     			create_component(todolist.$$.fragment);
     			attr_dev(div, "class", "app");
-    			add_location(div, file, 40, 0, 676);
+    			add_location(div, file, 62, 0, 1027);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1213,6 +1304,9 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
+    			const todoheader_changes = {};
+    			if (dirty & /*todoValue*/ 2) todoheader_changes.todoValue = /*todoValue*/ ctx[1];
+    			todoheader.$set(todoheader_changes);
     			const todolist_changes = {};
     			if (dirty & /*todos*/ 1) todolist_changes.todos = /*todos*/ ctx[0];
     			todolist.$set(todolist_changes);
@@ -1276,6 +1370,8 @@ var app = (function () {
     		}
     	];
 
+    	let todoValue = ''; // 추가
+
     	function handleCheckTodo(id) {
     		$$invalidate(0, todos = todos.map(todo => {
     			if (todo.id === id) {
@@ -1285,6 +1381,28 @@ var app = (function () {
 
     			return todo;
     		}));
+    	}
+
+    	function addTodoItem() {
+    		// 추가
+    		if (todoValue) {
+    			const newTodo = {
+    				id: v4(),
+    				content: todoValue,
+    				doen: false
+    			};
+
+    			$$invalidate(0, todos = [...todos, newTodo]);
+    			$$invalidate(1, todoValue = '');
+    		}
+    	}
+
+    	function handleTodoInputKeyup(e) {
+    		// 추가
+    		if (e.keyCode === 13) {
+    			$$invalidate(1, todoValue = e.target.value); // 추가
+    			addTodoItem();
+    		}
     	}
 
     	const writable_props = [];
@@ -1299,18 +1417,22 @@ var app = (function () {
     		TodoList,
     		uuid: v4,
     		todos,
-    		handleCheckTodo
+    		todoValue,
+    		handleCheckTodo,
+    		addTodoItem,
+    		handleTodoInputKeyup
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('todos' in $$props) $$invalidate(0, todos = $$props.todos);
+    		if ('todoValue' in $$props) $$invalidate(1, todoValue = $$props.todoValue);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [todos, handleCheckTodo];
+    	return [todos, todoValue, handleCheckTodo, handleTodoInputKeyup];
     }
 
     class App extends SvelteComponentDev {
