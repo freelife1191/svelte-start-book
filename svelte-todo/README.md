@@ -152,3 +152,32 @@ todos = todos.filter(todo => todo.done === true)
 ---
 
 TodoList 컴포넌트에 `transition` 기능 추가
+
+
+## 9. 스토어를 통한 Todo 리팩토링
+
+---
+
+Props는 바로 아래 있는 컴포넌트에 상태값을 전달하는 데에는 크게 무리가 없지만 전달할 데이터가 멀리 있을수록 그 효율성이 떨어짐
+앱이 커질수록 관리 및 확장이 힘들어짐
+
+### 9.1 storeForm ∙ storeTodo 작성
+`store.js`
+- `addTodo`: 할 일 추가
+- `editTodo`: 할 일 수정
+- `removeTodo`: 할 일 삭제
+- `checkTodo`: 할 일 체크
+- `changeTodoEditMode`: 할 일 수정모드 변경
+- `closeTodoEditMode`: 할 일 수정모드 닫기
+- `changeTodoView`: 보기모드 선택
+
+전달 받은 datas를 수정 후 다시 리턴해줘야 한다
+```js
+update(
+  datas => { // datas에는 현재 writable 데이터가 인자로 들어옴
+    const setData = datas.filter(...) 데이터 가공
+    datas = setData // datas를 가공한 setData로 재할당
+    return datas // 재할당된 datas를 리턴
+  }
+)
+```
