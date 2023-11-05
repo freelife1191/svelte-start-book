@@ -36,3 +36,25 @@ $ npm run dev
 ├── package.json
 └── rollup.config.js
 ```
+
+`/public/global.css`교체
+
+
+## 2. 컴포넌트 배치
+---
+
+기본적인 컴포넌트 배치
+```bash
+...
+├── src
+│   ├── components
+│   │   ├── TodoHeader.svelte // 추가
+│   │   ├── TodoInfo.svelte // 추가
+│   │   ├── TodoList.svelte // 추가
+│   │   └── TodoItem.svelte // 추가
+│   ├── App.svelte
+│   └── main.js
+...
+```
+
+![](attachments/20231105164311.png)
