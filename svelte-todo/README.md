@@ -81,6 +81,7 @@ check 값이 true인 목록에 체크박스가 체크됨
 
 
 ## 4. Todo 입력
+
 ---
 
 할일이 추가되는 과정
@@ -93,3 +94,11 @@ check 값이 true인 목록에 체크박스가 체크됨
 
 ![](attachments/20231105190230.png)
 
+
+## 5. Todo 삭제
+
+---
+
+`handleRemoveTodo()` 메소드를 만들고 Props로 TodoList 컴포넌트를 거쳐 TodoItem에 전달해 실행
+
+![](attachments/20231105190956.png)

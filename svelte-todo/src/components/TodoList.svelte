@@ -1,14 +1,15 @@
 <script>
   import TodoItem from "./TodoItem.svelte";
 
-  export let todos; // 추가
+  export let todos;
   export let handleCheckTodo;
+  export let handleRemoveTodo;
 </script>
 <div class="main">
   <ul>
-    {#each todos as todo, index(todo)} <!-- 추가 -->
+    {#each todos as todo, index(todo)}
       <li>
-        <TodoItem {todo} {handleCheckTodo} /> <!-- handleCheckTodo 전달 -->
+        <TodoItem {todo} {handleCheckTodo} {handleRemoveTodo} />
       </li>
     {/each}
   </ul>

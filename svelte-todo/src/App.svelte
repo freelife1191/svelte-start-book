@@ -28,7 +28,7 @@
 		}
 	]
 
-	let todoValue = ''; // 추가
+	let todoValue = '';
 
 	function handleCheckTodo(id) {
 		todos = todos.map(todo => {
@@ -52,16 +52,20 @@
 		}
 	}
 
-	function handleTodoInputKeyup(e) { // 추가
+	function handleTodoInputKeyup(e) {
 		if(e.keyCode === 13) {
-			todoValue = e.target.value; // 추가
+			todoValue = e.target.value;
 			addTodoItem();
 		}
+	}
+
+	function handleRemoveTodo(id) {
+		todos = todos.filter(todo => todo.id !== id);
 	}
 </script>
 
 <div class="app">
-	<TodoHeader {todoValue} {handleTodoInputKeyup} /> <!-- 수정 -->
+	<TodoHeader {todoValue} {handleTodoInputKeyup} />
 	<TodoInfo />
-	<TodoList {todos} {handleCheckTodo} /> <!-- handleCheckTodo Props로 넘김 -->
+	<TodoList {todos} {handleCheckTodo} {handleRemoveTodo} />
 </div>
