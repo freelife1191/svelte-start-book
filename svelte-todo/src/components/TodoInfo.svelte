@@ -1,18 +1,18 @@
 <script>
+  import { todos, countTodo } from '../store'
+  import Constant from '../constant'
 
-  import Constant from '../constant';
+  const handleFetchTodoALL = () => todos.changeTodoView(Constant.ALL)
+  const handleFetchTodoActive = () => todos.changeTodoView(Constant.ACTIVE)
+  const handleFetchTodoDone = () => todos.changeTodoView(Constant.DONE)
 
-  export let todoCount;
-  export let viewMode;
-  export let handleChangeViewMode;
 </script>
 
 <div class="info">
-  <span>COUNT: {todoCount}</span>
+  <span>COUNT: {$countTodo}</span>
   <div>
-    <button class="btn" class:selected={viewMode === Constant.ALL} on:click={() => handleChangeViewMode(Constant.ALL)} >ALL</button>
-    <button class="btn" class:selected={viewMode === Constant.ACTIVE} on:click={() => handleChangeViewMode(Constant.ACTIVE)}>ACTIVE</button>
-    <button class="btn" class:selected={viewMode === Constant.DONE} on:click={() => handleChangeViewMode(Constant.DONE)}>DONE</button>
+    <button class:selected={$todos.viewMode === Constant.ALL} class="btn" on:click={handleFetchTodoALL} >ALL</button>
+    <button class:selected={$todos.viewMode === Constant.ACTIVE} class="btn" on:click={handleFetchTodoActive} >ACTIVE</button>
+    <button class:selected={$todos.viewMode === Constant.DONE} class="btn" on:click={handleFetchTodoDone} >DONE</button>
   </div>
 </div>
- 

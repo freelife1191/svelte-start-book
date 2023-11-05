@@ -1,6 +1,14 @@
 <script>
-  export let todoValue;
-  export let handleTodoInputKeyup
+  import { todoForm, todos } from '../store'
+
+  const handleTodoAdd = (e) => {
+    if(e.keyCode === 13) {
+      console.log(`todoForm: ${$todoForm}`)
+      todos.addTodo($todoForm)
+      todoForm.resetForm()
+    }
+  }
+
 </script>
 
 <header>
@@ -8,8 +16,8 @@
     <h1>SVELTE TODO </h1>
     <input
         type="text"
-        bind:value={todoValue}
-        on:keyup={handleTodoInputKeyup}
+        bind:value={$todoForm}
+        on:keyup={handleTodoAdd}
     />
   </div>
 </header>

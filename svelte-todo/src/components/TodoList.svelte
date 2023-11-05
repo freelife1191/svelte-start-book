@@ -1,24 +1,19 @@
 <script>
-  import {fade, slide} from 'svelte/transition';
-  import { flip } from 'svelte/animate';
-  import TodoItem from "./TodoItem.svelte";
-
-  export let fetchTodos;
-  export let handleCheckTodo;
-  export let handleRemoveTodo;
-  export let editMode;
-  export let handleEditTodoItem;
-  export let handleChangeEditMode;
+  import TodoItem from './TodoItem.svelte'
+  import { fetchTodos } from '../store'
+  import { fade, fly } from 'svelte/transition'
+  import { flip } from 'svelte/animate'
 </script>
+
 <div class="main">
   <ul>
-    {#each fetchTodos as todo, index(todo)}
+    {#each $fetchTodos as todo, index(todo.id)}
       <li
           in:fade
-          out:slide={{duration: 100}}
-          animate:flip={{duration:300}}
+          out:fade="{{duration: 100}}"
+          animate:flip="{{duration: 1000}}"
       >
-        <TodoItem {todo} {handleCheckTodo} {handleRemoveTodo} {editMode} {handleEditTodoItem} {handleChangeEditMode} />
+        <TodoItem {todo} />
       </li>
     {/each}
   </ul>
