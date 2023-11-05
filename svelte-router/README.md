@@ -1,6 +1,7 @@
 # 9. 라우터(Router)
 
 ## 1. 라우터란?
+
 ---
 
 URL에 의해 페이지를 표시하는 기능을 Routing이라고 하고 이 기능을 구현해 주는 장치를 Router라고 한다
@@ -14,7 +15,8 @@ Svelte에서는 기본적ㅇ로 라우터를 지원하지 않지만 다양한 �
 - **root-svelte-router**: https://github.com/PierBover/roots-svelte-router
 - **svelte-stack-router**: https://github.com/cdellacqua/svelte-stack-router
 
-## 9.2 tinro 설치
+## 2. tinro 설치
+
 ---
 
 프로젝트 생성
@@ -34,4 +36,33 @@ package.json의 start에 `--single` 코드를 추가해야 tinro를 이용한 �
   "dev": "rollup -c -w",
   "start": "sirv public --single --no-clear" // --single 추가
 }
+```
+
+## 3. 라우팅 기능
+
+---
+
+tinro의 Route import
+```html
+<script>
+  import {Route} from 'tinro';
+</script>
+```
+
+Route 사용
+```html
+<Route path="/주소"><!-- 컴포넌트 또는 마크업--> </Route>
+```
+
+- Fallback - 404 No Page Found
+```html
+<Route fallback>404 페이지</Route>
+```
+
+- Redirect
+  `redirect="/home"`을 설정하면 기본 주소로 접속을 하더라도 자동으로 `/home`으로 이동
+
+- Links
+```html
+<a href="/page" use:active>Link</a>
 ```
