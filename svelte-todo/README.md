@@ -102,3 +102,17 @@ check 값이 true인 목록에 체크박스가 체크됨
 `handleRemoveTodo()` 메소드를 만들고 Props로 TodoList 컴포넌트를 거쳐 TodoItem에 전달해 실행
 
 ![](attachments/20231105190956.png)
+
+
+## 6. Todo 수정
+
+---
+
+내용을 더블클릭하면 텍스트 박스로 변경되고 이곳에 변경된 내용을 입력하고 커서를 다른 곳으로 옮기면 저장
+
+1. 할 일에 대한 더블클릭이 일어나면 `handleChangeEditMode`에 의해 상태값 `editMode`에 해당하는 일의 `id`가 입력됨
+2. Todo 목록의 `id`와 `editMode`가 같은 텍스트박스로 변경돼서 나타남
+3. 입력이 완료된 후 커서를 밖으로 옮기면 `handleEditTodoItem`에 의해서 수정이 일어남
+4. `closeEditMode`에 의해 `editMode`가 초기화되고 수정모드 해제
+
+![](Pasted%20image%2020231105192650.png)

@@ -793,31 +793,126 @@ var app = (function () {
 
     const file$2 = "src/components/TodoItem.svelte";
 
-    function create_fragment$2(ctx) {
-    	let input;
-    	let t0;
+    // (17:0) {:else}
+    function create_else_block(ctx) {
     	let span;
-    	let t1_value = /*todo*/ ctx[0].content + "";
-    	let t1;
-    	let t2;
-    	let a;
+    	let t_value = /*todo*/ ctx[0].content + "";
+    	let t;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			span = element("span");
+    			t = text(t_value);
+    			add_location(span, file$2, 17, 2, 429);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, span, anchor);
+    			append_dev(span, t);
+
+    			if (!mounted) {
+    				dispose = listen_dev(span, "dblclick", /*dblclick_handler*/ ctx[10], false, false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*todo*/ 1 && t_value !== (t_value = /*todo*/ ctx[0].content + "")) set_data_dev(t, t_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(span);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block.name,
+    		type: "else",
+    		source: "(17:0) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (15:0) {#if editMode === todo.id}
+    function create_if_block(ctx) {
+    	let input;
     	let mounted;
     	let dispose;
 
     	const block = {
     		c: function create() {
     			input = element("input");
+    			attr_dev(input, "type", "text");
+    			add_location(input, file$2, 15, 2, 324);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, input, anchor);
+    			set_input_value(input, /*todo*/ ctx[0].content);
+
+    			if (!mounted) {
+    				dispose = [
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[8]),
+    					listen_dev(input, "focusout", /*focusout_handler*/ ctx[9], false, false, false, false)
+    				];
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*todo*/ 1 && input.value !== /*todo*/ ctx[0].content) {
+    				set_input_value(input, /*todo*/ ctx[0].content);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(input);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(15:0) {#if editMode === todo.id}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$2(ctx) {
+    	let input;
+    	let t0;
+    	let t1;
+    	let a;
+    	let mounted;
+    	let dispose;
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*editMode*/ ctx[3] === /*todo*/ ctx[0].id) return create_if_block;
+    		return create_else_block;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block = current_block_type(ctx);
+
+    	const block = {
+    		c: function create() {
+    			input = element("input");
     			t0 = space();
-    			span = element("span");
-    			t1 = text(t1_value);
-    			t2 = space();
+    			if_block.c();
+    			t1 = space();
     			a = element("a");
     			a.textContent = "X";
     			attr_dev(input, "type", "checkbox");
-    			add_location(input, file$2, 6, 0, 100);
-    			add_location(span, file$2, 11, 0, 216);
+    			add_location(input, file$2, 9, 0, 191);
     			attr_dev(a, "href", "#null");
-    			add_location(a, file$2, 12, 0, 244);
+    			add_location(a, file$2, 19, 0, 514);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -826,16 +921,15 @@ var app = (function () {
     			insert_dev(target, input, anchor);
     			input.checked = /*todo*/ ctx[0].done;
     			insert_dev(target, t0, anchor);
-    			insert_dev(target, span, anchor);
-    			append_dev(span, t1);
-    			insert_dev(target, t2, anchor);
+    			if_block.m(target, anchor);
+    			insert_dev(target, t1, anchor);
     			insert_dev(target, a, anchor);
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(input, "change", /*input_change_handler*/ ctx[3]),
-    					listen_dev(input, "click", /*click_handler*/ ctx[4], false, false, false, false),
-    					listen_dev(a, "click", /*click_handler_1*/ ctx[5], false, false, false, false)
+    					listen_dev(input, "change", /*input_change_handler*/ ctx[6]),
+    					listen_dev(input, "click", /*click_handler*/ ctx[7], false, false, false, false),
+    					listen_dev(a, "click", /*click_handler_1*/ ctx[11], false, false, false, false)
     				];
 
     				mounted = true;
@@ -846,15 +940,25 @@ var app = (function () {
     				input.checked = /*todo*/ ctx[0].done;
     			}
 
-    			if (dirty & /*todo*/ 1 && t1_value !== (t1_value = /*todo*/ ctx[0].content + "")) set_data_dev(t1, t1_value);
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+    				if_block.p(ctx, dirty);
+    			} else {
+    				if_block.d(1);
+    				if_block = current_block_type(ctx);
+
+    				if (if_block) {
+    					if_block.c();
+    					if_block.m(t1.parentNode, t1);
+    				}
+    			}
     		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(input);
     			if (detaching) detach_dev(t0);
-    			if (detaching) detach_dev(span);
-    			if (detaching) detach_dev(t2);
+    			if_block.d(detaching);
+    			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(a);
     			mounted = false;
     			run_all(dispose);
@@ -878,6 +982,9 @@ var app = (function () {
     	let { todo } = $$props;
     	let { handleCheckTodo } = $$props;
     	let { handleRemoveTodo } = $$props;
+    	let { editMode } = $$props;
+    	let { handleEditTodoItem } = $$props;
+    	let { handleChangeEditMode } = $$props;
 
     	$$self.$$.on_mount.push(function () {
     		if (todo === undefined && !('todo' in $$props || $$self.$$.bound[$$self.$$.props['todo']])) {
@@ -891,9 +998,28 @@ var app = (function () {
     		if (handleRemoveTodo === undefined && !('handleRemoveTodo' in $$props || $$self.$$.bound[$$self.$$.props['handleRemoveTodo']])) {
     			console.warn("<TodoItem> was created without expected prop 'handleRemoveTodo'");
     		}
+
+    		if (editMode === undefined && !('editMode' in $$props || $$self.$$.bound[$$self.$$.props['editMode']])) {
+    			console.warn("<TodoItem> was created without expected prop 'editMode'");
+    		}
+
+    		if (handleEditTodoItem === undefined && !('handleEditTodoItem' in $$props || $$self.$$.bound[$$self.$$.props['handleEditTodoItem']])) {
+    			console.warn("<TodoItem> was created without expected prop 'handleEditTodoItem'");
+    		}
+
+    		if (handleChangeEditMode === undefined && !('handleChangeEditMode' in $$props || $$self.$$.bound[$$self.$$.props['handleChangeEditMode']])) {
+    			console.warn("<TodoItem> was created without expected prop 'handleChangeEditMode'");
+    		}
     	});
 
-    	const writable_props = ['todo', 'handleCheckTodo', 'handleRemoveTodo'];
+    	const writable_props = [
+    		'todo',
+    		'handleCheckTodo',
+    		'handleRemoveTodo',
+    		'editMode',
+    		'handleEditTodoItem',
+    		'handleChangeEditMode'
+    	];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<TodoItem> was created with unknown prop '${key}'`);
@@ -905,20 +1031,44 @@ var app = (function () {
     	}
 
     	const click_handler = () => handleCheckTodo(todo.id);
+
+    	function input_input_handler() {
+    		todo.content = this.value;
+    		$$invalidate(0, todo);
+    	}
+
+    	const focusout_handler = () => {
+    		handleEditTodoItem(todo);
+    	};
+
+    	const dblclick_handler = () => handleChangeEditMode(todo.id);
     	const click_handler_1 = () => handleRemoveTodo(todo.id);
 
     	$$self.$$set = $$props => {
     		if ('todo' in $$props) $$invalidate(0, todo = $$props.todo);
     		if ('handleCheckTodo' in $$props) $$invalidate(1, handleCheckTodo = $$props.handleCheckTodo);
     		if ('handleRemoveTodo' in $$props) $$invalidate(2, handleRemoveTodo = $$props.handleRemoveTodo);
+    		if ('editMode' in $$props) $$invalidate(3, editMode = $$props.editMode);
+    		if ('handleEditTodoItem' in $$props) $$invalidate(4, handleEditTodoItem = $$props.handleEditTodoItem);
+    		if ('handleChangeEditMode' in $$props) $$invalidate(5, handleChangeEditMode = $$props.handleChangeEditMode);
     	};
 
-    	$$self.$capture_state = () => ({ todo, handleCheckTodo, handleRemoveTodo });
+    	$$self.$capture_state = () => ({
+    		todo,
+    		handleCheckTodo,
+    		handleRemoveTodo,
+    		editMode,
+    		handleEditTodoItem,
+    		handleChangeEditMode
+    	});
 
     	$$self.$inject_state = $$props => {
     		if ('todo' in $$props) $$invalidate(0, todo = $$props.todo);
     		if ('handleCheckTodo' in $$props) $$invalidate(1, handleCheckTodo = $$props.handleCheckTodo);
     		if ('handleRemoveTodo' in $$props) $$invalidate(2, handleRemoveTodo = $$props.handleRemoveTodo);
+    		if ('editMode' in $$props) $$invalidate(3, editMode = $$props.editMode);
+    		if ('handleEditTodoItem' in $$props) $$invalidate(4, handleEditTodoItem = $$props.handleEditTodoItem);
+    		if ('handleChangeEditMode' in $$props) $$invalidate(5, handleChangeEditMode = $$props.handleChangeEditMode);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -929,8 +1079,14 @@ var app = (function () {
     		todo,
     		handleCheckTodo,
     		handleRemoveTodo,
+    		editMode,
+    		handleEditTodoItem,
+    		handleChangeEditMode,
     		input_change_handler,
     		click_handler,
+    		input_input_handler,
+    		focusout_handler,
+    		dblclick_handler,
     		click_handler_1
     	];
     }
@@ -942,7 +1098,10 @@ var app = (function () {
     		init(this, options, instance$2, create_fragment$2, safe_not_equal, {
     			todo: 0,
     			handleCheckTodo: 1,
-    			handleRemoveTodo: 2
+    			handleRemoveTodo: 2,
+    			editMode: 3,
+    			handleEditTodoItem: 4,
+    			handleChangeEditMode: 5
     		});
 
     		dispatch_dev("SvelteRegisterComponent", {
@@ -976,6 +1135,30 @@ var app = (function () {
     	set handleRemoveTodo(value) {
     		throw new Error("<TodoItem>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
+
+    	get editMode() {
+    		throw new Error("<TodoItem>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set editMode(value) {
+    		throw new Error("<TodoItem>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get handleEditTodoItem() {
+    		throw new Error("<TodoItem>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set handleEditTodoItem(value) {
+    		throw new Error("<TodoItem>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get handleChangeEditMode() {
+    		throw new Error("<TodoItem>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set handleChangeEditMode(value) {
+    		throw new Error("<TodoItem>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
     }
 
     /* src/components/TodoList.svelte generated by Svelte v3.59.2 */
@@ -983,12 +1166,12 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
-    	child_ctx[5] = i;
+    	child_ctx[6] = list[i];
+    	child_ctx[8] = i;
     	return child_ctx;
     }
 
-    // (10:4) {#each todos as todo, index(todo)}
+    // (13:4) {#each todos as todo, index(todo)}
     function create_each_block(key_1, ctx) {
     	let li;
     	let todoitem;
@@ -997,9 +1180,12 @@ var app = (function () {
 
     	todoitem = new TodoItem({
     			props: {
-    				todo: /*todo*/ ctx[3],
+    				todo: /*todo*/ ctx[6],
     				handleCheckTodo: /*handleCheckTodo*/ ctx[1],
-    				handleRemoveTodo: /*handleRemoveTodo*/ ctx[2]
+    				handleRemoveTodo: /*handleRemoveTodo*/ ctx[2],
+    				editMode: /*editMode*/ ctx[3],
+    				handleEditTodoItem: /*handleEditTodoItem*/ ctx[4],
+    				handleChangeEditMode: /*handleChangeEditMode*/ ctx[5]
     			},
     			$$inline: true
     		});
@@ -1011,7 +1197,7 @@ var app = (function () {
     			li = element("li");
     			create_component(todoitem.$$.fragment);
     			t = space();
-    			add_location(li, file$1, 10, 6, 216);
+    			add_location(li, file$1, 13, 6, 307);
     			this.first = li;
     		},
     		m: function mount(target, anchor) {
@@ -1023,9 +1209,12 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
     			const todoitem_changes = {};
-    			if (dirty & /*todos*/ 1) todoitem_changes.todo = /*todo*/ ctx[3];
+    			if (dirty & /*todos*/ 1) todoitem_changes.todo = /*todo*/ ctx[6];
     			if (dirty & /*handleCheckTodo*/ 2) todoitem_changes.handleCheckTodo = /*handleCheckTodo*/ ctx[1];
     			if (dirty & /*handleRemoveTodo*/ 4) todoitem_changes.handleRemoveTodo = /*handleRemoveTodo*/ ctx[2];
+    			if (dirty & /*editMode*/ 8) todoitem_changes.editMode = /*editMode*/ ctx[3];
+    			if (dirty & /*handleEditTodoItem*/ 16) todoitem_changes.handleEditTodoItem = /*handleEditTodoItem*/ ctx[4];
+    			if (dirty & /*handleChangeEditMode*/ 32) todoitem_changes.handleChangeEditMode = /*handleChangeEditMode*/ ctx[5];
     			todoitem.$set(todoitem_changes);
     		},
     		i: function intro(local) {
@@ -1047,7 +1236,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(10:4) {#each todos as todo, index(todo)}",
+    		source: "(13:4) {#each todos as todo, index(todo)}",
     		ctx
     	});
 
@@ -1062,7 +1251,7 @@ var app = (function () {
     	let current;
     	let each_value = /*todos*/ ctx[0];
     	validate_each_argument(each_value);
-    	const get_key = ctx => /*todo*/ ctx[3];
+    	const get_key = ctx => /*todo*/ ctx[6];
     	validate_each_keys(ctx, each_value, get_each_context, get_key);
 
     	for (let i = 0; i < each_value.length; i += 1) {
@@ -1080,9 +1269,9 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(ul, file$1, 8, 2, 166);
+    			add_location(ul, file$1, 11, 2, 257);
     			attr_dev(div, "class", "main");
-    			add_location(div, file$1, 7, 0, 145);
+    			add_location(div, file$1, 10, 0, 236);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1100,7 +1289,7 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*todos, handleCheckTodo, handleRemoveTodo*/ 7) {
+    			if (dirty & /*todos, handleCheckTodo, handleRemoveTodo, editMode, handleEditTodoItem, handleChangeEditMode*/ 63) {
     				each_value = /*todos*/ ctx[0];
     				validate_each_argument(each_value);
     				group_outros();
@@ -1151,6 +1340,9 @@ var app = (function () {
     	let { todos } = $$props;
     	let { handleCheckTodo } = $$props;
     	let { handleRemoveTodo } = $$props;
+    	let { editMode } = $$props;
+    	let { handleEditTodoItem } = $$props;
+    	let { handleChangeEditMode } = $$props;
 
     	$$self.$$.on_mount.push(function () {
     		if (todos === undefined && !('todos' in $$props || $$self.$$.bound[$$self.$$.props['todos']])) {
@@ -1164,9 +1356,28 @@ var app = (function () {
     		if (handleRemoveTodo === undefined && !('handleRemoveTodo' in $$props || $$self.$$.bound[$$self.$$.props['handleRemoveTodo']])) {
     			console.warn("<TodoList> was created without expected prop 'handleRemoveTodo'");
     		}
+
+    		if (editMode === undefined && !('editMode' in $$props || $$self.$$.bound[$$self.$$.props['editMode']])) {
+    			console.warn("<TodoList> was created without expected prop 'editMode'");
+    		}
+
+    		if (handleEditTodoItem === undefined && !('handleEditTodoItem' in $$props || $$self.$$.bound[$$self.$$.props['handleEditTodoItem']])) {
+    			console.warn("<TodoList> was created without expected prop 'handleEditTodoItem'");
+    		}
+
+    		if (handleChangeEditMode === undefined && !('handleChangeEditMode' in $$props || $$self.$$.bound[$$self.$$.props['handleChangeEditMode']])) {
+    			console.warn("<TodoList> was created without expected prop 'handleChangeEditMode'");
+    		}
     	});
 
-    	const writable_props = ['todos', 'handleCheckTodo', 'handleRemoveTodo'];
+    	const writable_props = [
+    		'todos',
+    		'handleCheckTodo',
+    		'handleRemoveTodo',
+    		'editMode',
+    		'handleEditTodoItem',
+    		'handleChangeEditMode'
+    	];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<TodoList> was created with unknown prop '${key}'`);
@@ -1176,26 +1387,42 @@ var app = (function () {
     		if ('todos' in $$props) $$invalidate(0, todos = $$props.todos);
     		if ('handleCheckTodo' in $$props) $$invalidate(1, handleCheckTodo = $$props.handleCheckTodo);
     		if ('handleRemoveTodo' in $$props) $$invalidate(2, handleRemoveTodo = $$props.handleRemoveTodo);
+    		if ('editMode' in $$props) $$invalidate(3, editMode = $$props.editMode);
+    		if ('handleEditTodoItem' in $$props) $$invalidate(4, handleEditTodoItem = $$props.handleEditTodoItem);
+    		if ('handleChangeEditMode' in $$props) $$invalidate(5, handleChangeEditMode = $$props.handleChangeEditMode);
     	};
 
     	$$self.$capture_state = () => ({
     		TodoItem,
     		todos,
     		handleCheckTodo,
-    		handleRemoveTodo
+    		handleRemoveTodo,
+    		editMode,
+    		handleEditTodoItem,
+    		handleChangeEditMode
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('todos' in $$props) $$invalidate(0, todos = $$props.todos);
     		if ('handleCheckTodo' in $$props) $$invalidate(1, handleCheckTodo = $$props.handleCheckTodo);
     		if ('handleRemoveTodo' in $$props) $$invalidate(2, handleRemoveTodo = $$props.handleRemoveTodo);
+    		if ('editMode' in $$props) $$invalidate(3, editMode = $$props.editMode);
+    		if ('handleEditTodoItem' in $$props) $$invalidate(4, handleEditTodoItem = $$props.handleEditTodoItem);
+    		if ('handleChangeEditMode' in $$props) $$invalidate(5, handleChangeEditMode = $$props.handleChangeEditMode);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [todos, handleCheckTodo, handleRemoveTodo];
+    	return [
+    		todos,
+    		handleCheckTodo,
+    		handleRemoveTodo,
+    		editMode,
+    		handleEditTodoItem,
+    		handleChangeEditMode
+    	];
     }
 
     class TodoList extends SvelteComponentDev {
@@ -1205,7 +1432,10 @@ var app = (function () {
     		init(this, options, instance$1, create_fragment$1, safe_not_equal, {
     			todos: 0,
     			handleCheckTodo: 1,
-    			handleRemoveTodo: 2
+    			handleRemoveTodo: 2,
+    			editMode: 3,
+    			handleEditTodoItem: 4,
+    			handleChangeEditMode: 5
     		});
 
     		dispatch_dev("SvelteRegisterComponent", {
@@ -1237,6 +1467,30 @@ var app = (function () {
     	}
 
     	set handleRemoveTodo(value) {
+    		throw new Error("<TodoList>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get editMode() {
+    		throw new Error("<TodoList>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set editMode(value) {
+    		throw new Error("<TodoList>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get handleEditTodoItem() {
+    		throw new Error("<TodoList>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set handleEditTodoItem(value) {
+    		throw new Error("<TodoList>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get handleChangeEditMode() {
+    		throw new Error("<TodoList>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set handleChangeEditMode(value) {
     		throw new Error("<TodoList>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -1321,7 +1575,7 @@ var app = (function () {
     	todoheader = new TodoHeader({
     			props: {
     				todoValue: /*todoValue*/ ctx[1],
-    				handleTodoInputKeyup: /*handleTodoInputKeyup*/ ctx[3]
+    				handleTodoInputKeyup: /*handleTodoInputKeyup*/ ctx[4]
     			},
     			$$inline: true
     		});
@@ -1331,8 +1585,11 @@ var app = (function () {
     	todolist = new TodoList({
     			props: {
     				todos: /*todos*/ ctx[0],
-    				handleCheckTodo: /*handleCheckTodo*/ ctx[2],
-    				handleRemoveTodo: /*handleRemoveTodo*/ ctx[4]
+    				handleCheckTodo: /*handleCheckTodo*/ ctx[3],
+    				handleRemoveTodo: /*handleRemoveTodo*/ ctx[5],
+    				editMode: /*editMode*/ ctx[2],
+    				handleChangeEditMode: /*handleChangeEditMode*/ ctx[6],
+    				handleEditTodoItem: /*handleEditTodoItem*/ ctx[7]
     			},
     			$$inline: true
     		});
@@ -1346,7 +1603,7 @@ var app = (function () {
     			t1 = space();
     			create_component(todolist.$$.fragment);
     			attr_dev(div, "class", "app");
-    			add_location(div, file, 66, 0, 1094);
+    			add_location(div, file, 86, 0, 1413);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -1366,6 +1623,7 @@ var app = (function () {
     			todoheader.$set(todoheader_changes);
     			const todolist_changes = {};
     			if (dirty & /*todos*/ 1) todolist_changes.todos = /*todos*/ ctx[0];
+    			if (dirty & /*editMode*/ 4) todolist_changes.editMode = /*editMode*/ ctx[2];
     			todolist.$set(todolist_changes);
     		},
     		i: function intro(local) {
@@ -1428,6 +1686,7 @@ var app = (function () {
     	];
 
     	let todoValue = '';
+    	let editMode = '';
 
     	function handleCheckTodo(id) {
     		$$invalidate(0, todos = todos.map(todo => {
@@ -1465,6 +1724,26 @@ var app = (function () {
     		$$invalidate(0, todos = todos.filter(todo => todo.id !== id));
     	}
 
+    	function handleChangeEditMode(id) {
+    		$$invalidate(2, editMode = id);
+    	}
+
+    	function handleEditTodoItem(editTodo) {
+    		$$invalidate(0, todos = todos.map(todo => {
+    			if (todo.id === editTodo.id) {
+    				todo.content = editTodo.content;
+    			}
+
+    			return todo;
+    		}));
+
+    		closeEditMode();
+    	}
+
+    	function closeEditMode() {
+    		$$invalidate(2, editMode = '');
+    	}
+
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -1478,22 +1757,36 @@ var app = (function () {
     		uuid: v4,
     		todos,
     		todoValue,
+    		editMode,
     		handleCheckTodo,
     		addTodoItem,
     		handleTodoInputKeyup,
-    		handleRemoveTodo
+    		handleRemoveTodo,
+    		handleChangeEditMode,
+    		handleEditTodoItem,
+    		closeEditMode
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('todos' in $$props) $$invalidate(0, todos = $$props.todos);
     		if ('todoValue' in $$props) $$invalidate(1, todoValue = $$props.todoValue);
+    		if ('editMode' in $$props) $$invalidate(2, editMode = $$props.editMode);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [todos, todoValue, handleCheckTodo, handleTodoInputKeyup, handleRemoveTodo];
+    	return [
+    		todos,
+    		todoValue,
+    		editMode,
+    		handleCheckTodo,
+    		handleTodoInputKeyup,
+    		handleRemoveTodo,
+    		handleChangeEditMode,
+    		handleEditTodoItem
+    	];
     }
 
     class App extends SvelteComponentDev {
