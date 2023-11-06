@@ -83,5 +83,43 @@ Route 사용
 </Route>
 ```
 
+하위 주소를 사용할 경우 경로 다음에 꼭 `*`를 사용해야 한다
+
 ![](attachments/20231106213240.png)
 
+중첩 링크를 앱의 디자인 요소에 맞춰서 유연하게 배치할 수 있다
+
+![](attachments/20231106214252.png)
+
+
+## 5. 파라미터 전달 및 받기
+
+---
+
+URL을 통해 값을 전달하고, 또 그 전달된 값을 받아서 사용
+
+```html
+<Route path="/sub/:전달값이름">...</Route>
+```
+
+![](attachments/20231106214921.png)
+
+
+## 6. 프로그래밍 제어
+
+---
+
+라우팅 제어 방법
+
+![](attachments/20231106215235.png)
+
+URL 주소 제어
+```js
+router.goto('/foo'); //URL: /foo
+router.location.query.set('name','alex'); //URL: /foo?name=alex
+router.location.hash.set('bar'); //URL: /foo?name=alex#bar
+router.location.query.set('page',1); //URL: /foo?name=alex&page=1#bar
+router.location.query.replace({hello: 'world'}); //URL: /foo?hello=world#bar
+router.location.query.clear(); //URL: /foo#bar
+router.location.hash.clear(); //URL: /foo
+```
