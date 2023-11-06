@@ -66,3 +66,22 @@ Route 사용
 ```html
 <a href="/page" use:active>Link</a>
 ```
+
+
+## 4. 중첩 라우팅
+
+---
+
+- **중첩 라우팅**: 메인 주소 아래에 하위 요소를 필요로 할 때 사용하는 기능
+
+```html
+<Route path="/about/*">
+  <About />
+  <Route path="/sub">
+    <SubContent />
+  </Route>
+</Route>
+```
+
+![](attachments/20231106213240.png)
+
