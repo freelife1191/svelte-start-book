@@ -130,3 +130,25 @@ router.location.hash.clear(); //URL: /foo
 ---
 
 `svelte/transition` 화면전환 효과 적용
+
+
+## 8. 라우팅 가드
+
+---
+
+조건에 만족하지 않으면 페이지 접근 거부
+
+```html
+<script>
+  import { authToken } from '../store';
+</script>
+
+{#if $authToken}
+  <Route path="/profile">개인정보 페이지...</Route>
+{:else}
+  <Route path="/profile"><a href="/login">로그인 링크</a></Route>
+  <Route path="/login">로그인 페이지...</Route>
+{/if}
+```
+
+- **tinro 기능 더 알아보기**: https://github.com/AlexxNB/tinro
