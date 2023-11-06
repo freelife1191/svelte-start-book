@@ -123,3 +123,10 @@ router.location.query.replace({hello: 'world'}); //URL: /foo?hello=world#bar
 router.location.query.clear(); //URL: /foo#bar
 router.location.hash.clear(); //URL: /foo
 ```
+
+
+## 7. 화면 전환
+
+---
+
+`svelte/transition` 화면전환 효과 적용
