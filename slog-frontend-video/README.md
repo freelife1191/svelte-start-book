@@ -133,3 +133,10 @@ postApi(options);
 ```
 
 `src/services/api.js` 추가
+
+
+## 6. 스토어 배치
+
+---
+
+`src/stores/index.js` 추가
