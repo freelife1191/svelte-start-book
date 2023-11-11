@@ -211,3 +211,15 @@ postApi(options);
   - `loadingArticle`: 데이터를 받아오는 동안 로딩중임을 나타냄
 - `src/components`
   - `ArticleList.svelte`: 위의 보완사항을 적용
+
+
+## 10. 글 작성 구현
+
+---
+
+- `src/stores/index.js`
+  - `addArticle`: 게시글 작성 기능 추가
+- `src/components`
+  - `ArticleAddForm.svelte`: 게시글 작성 시 서버에 등록되어 리스트에 보여짐
+- `src/pages`
+  - `Articles.svelte`: 로그인 시에만 게시글 작성 폼이 보임
