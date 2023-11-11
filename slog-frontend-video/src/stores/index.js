@@ -33,7 +33,113 @@ function setComments() {}
  * 로그인된 유저의 유저정보(_id, email)를 담음
  * 로그인, 로그아웃, 회원가입 등의 사용자정의 메소드를 가짐
  */
-function setAuth() {}
+function setAuth() {
+  let initValues = {
+    id: '',
+    email: '',
+    Authorization: '',
+  }
+
+  // ...initValues가 참조되지 않고 복제되서 나중에 초기화 시킬일이 있을때 변수로 만든 initValues를 이용해 초기화
+  // 스토어 내부에서 사용자 정의 메소드를 만들고 외부에서는 이 메소드를 호출해 스토어 값을 변경하는 것이 훨씬 효율적
+  // 이유는 발생할 수 있는 오류도 막을 수 있고, 코드의 재사용도 가능하기 때문
+  const { subscribe, set, update } = writable({...initValues})
+
+  /**
+   * refresh 토큰을 이용해 access_token을 요청함
+   * @returns {Promise<void>}
+   */
+  const refresh = async () => {
+    try {
+      const authenticationUser = await postApi({path: '/auth/refresh'})
+      set(authenticationUser)
+      isRefresh.set(true)
+    }
+    catch(err) {
+      auth.resetUserInfo()
+      isRefresh.set(false)
+    }
+  }
+  /**
+   * 해당 스토어를 초기화 시켜줌
+   */
+  const resetUserInfo = () => set({...initValues})
+  /**
+   * 로그인
+   * @returns {Promise<void>}
+   */
+  const login = async(email, password) => {
+    try {
+      const options = {
+        path: '/auth/login',
+        data: {
+          email: email,
+          pwd: password,
+        }
+      }
+
+      const result = await postApi(options)
+      set(result)
+      isRefresh.set(true)
+      router.goto('/')
+    }
+    catch(error) {
+      alert('오류가 발생했습니다. 로그인을 다시시도해 주세요.')
+    }
+  }
+  /**
+   * 로그아웃
+   * @returns {Promise<void>}
+   */
+  const logout = async () => {
+    try {
+      const options = {
+        path: '/auth/logout',
+      }
+
+      await delApi(options)
+      set({...initValues})
+      isRefresh.set(false)
+      // router.goto('/')
+      articlesMode.changeMode(ALL)
+    }
+    catch(error) {
+      alert('오류가 발생했습니다. 다시시도해 주세요')
+    }
+  }
+  /**
+   * 회원가입
+   * @returns {Promise<void>}
+   */
+  const register = async (email, pwd) => {
+    try {
+      const options = {
+        path: '/auth/register',
+        data: {
+          email: email,
+          pwd: pwd,
+        }
+      }
+
+      await postApi(options)
+      alert('가입이 완료되었습니다. ')
+      router.goto('/login')
+    }
+    catch(error) {
+      alert('오류가 발생했습니다. 다시 시도해 주세요.')
+    }
+  }
+
+
+  return {
+    subscribe,
+    refresh,
+    login,
+    logout,
+    resetUserInfo,
+    register,
+  }
+}
 
 /**
  * 보기의 상태를 나타냄
@@ -54,3 +160,4 @@ export const comments = setComments()
 export const auth = setAuth()
 export const articlesMode = setArticlesMode()
 export const isLogin = setIsLogin()
+export const isRefresh = writable(false)

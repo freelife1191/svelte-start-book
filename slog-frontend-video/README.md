@@ -140,3 +140,28 @@ postApi(options);
 ---
 
 `src/stores/index.js` 추가
+
+
+## 7. 인증 구현 - store
+
+---
+
+- **access_token**
+   - 15분~1시간 정도의 만료시간
+   - 클라이언트 메모리에 저장
+   - 자바스크립트로 로드 가능
+- **refresh_token**
+   - 1주 혹은 이상의 만료시간
+   - 쿠키로 로컬에 저장
+   - httpOnly라 자바스크립트로 로드 불가능
+      - 서버의 요청에 의해서만 읽거나 쓸수 있어 보안이 좀 더 강화됨
+
+인증 절차
+![](attachments/Pasted%20image%2020231111195521.png)
+
+`refresh_token` 만료되기 전이라면 `access_token`을 정상 발급
+
+![](attachments/Pasted%20image%2020231111201308.png)
+
+`refresh_token`이 만료되었다면 **isRefresh store**로 체크해서 `access_token` 발급을 거부함
+![](attachments/Pasted%20image%2020231111201330.png)
