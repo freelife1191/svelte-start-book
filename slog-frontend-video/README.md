@@ -81,3 +81,55 @@ $ npm i -D tinro
 - `src/App.svelte`
 - `main.js`
 - `styles/main.css`
+
+
+## 5. axios를 이용한 서버통신 설정
+
+---
+
+1. axios 설치
+```bash
+$ npm i axios
+```
+
+axios 사용법
+```js
+axios.get("http://localhost:3000/api/articles", {
+  headers: {
+    X-Auth-Token: '###'
+  }
+})
+
+axios.get("http://localhost:3000/api/likes", {
+  headers: {
+    X-Auth-Token: '###'
+  }
+})
+
+axios.post("http://localhost:3000/api/articles",
+  {
+    content" '###'
+  },
+  {
+  headers: {
+    X-Auth-Token: '###'
+  }
+})
+```
+
+axios 중복 제거 함수
+```js
+getApi({path: '/articles'})
+getApi({path: '/likes'})
+
+const options = {
+  path: '/article',
+  data: {
+    email: '###'
+  }
+}
+
+postApi(options);
+```
+
+`src/services/api.js` 추가
