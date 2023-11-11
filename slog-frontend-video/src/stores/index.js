@@ -36,6 +36,8 @@ function setArticles() {
   const { subscribe, update, set } = writable({...initValues})
 
   const fetchArticles = async () => {
+
+    loadingArticle.turnOnLoading()
     const currentPage = get(currentArticlesPage)
     let path = `/articles/?pageNumber=${currentPage}`
 
@@ -69,8 +71,10 @@ function setArticles() {
 
         return datas
       })
+      loadingArticle.turnOffLoading()
     }
     catch(error) {
+      loadingArticle.turnOffLoading()
       throw error
     }
   }
@@ -78,6 +82,7 @@ function setArticles() {
   const resetArticles = () => {
     set({...initValues})
     currentArticlesPage.resetPage()
+    articlePageLock.set(false)
   }
 
   return {
@@ -90,7 +95,24 @@ function setArticles() {
 /**
  * 게시물이 불러와 질 떄 서버와의 통신중이라면 로딩상태를 표시하는 기능을 함
  */
-function setLoadingArticle() {}
+function setLoadingArticle() {
+  const {subscribe, set} = writable(false)
+
+  const turnOnLoading = () => {
+    set(true)
+    articlePageLock.set(true)
+  }
+  const turnOffLoading = () => {
+    set(false)
+    articlePageLock.set(false)
+  }
+
+  return {
+    subscribe,
+    turnOnLoading,
+    turnOffLoading,
+  }
+}
 
 /**
  * 목록 형태의 여러게시물이 아닌 게시물 하나의 정보만을 담음
@@ -231,6 +253,7 @@ function setIsLogin() {
 
 export const currentArticlesPage = setCurrentArticlesPage()
 export const articles = setArticles()
+export const articlePageLock = writable(false)
 export const loadingArticle = setLoadingArticle()
 export const articleContent = setArticleContent()
 export const comments = setComments()

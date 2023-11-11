@@ -201,3 +201,13 @@ postApi(options);
 - 목록에 추가
     - `realHeight`: 실제 스크롤 사이즈
     - `triggerHeight`: 다음 페이지가 호출된 스크롤 위치(`realHeight * 0.7`)
+
+### 2. 무한 스크롤 페이지 기능 보완
+
+데이터를 다 받아왔는데도 일정 높이에서 스크롤 이동시 데이터를 계속 받아오고 페이지가 계속 증가되는 문제 해결
+
+- `src/stores/index.js`
+  - `articlePageLock`: 특정조건에 해당하면 더이상 페이지를 증가하지 않는 잠금장치 역할
+  - `loadingArticle`: 데이터를 받아오는 동안 로딩중임을 나타냄
+- `src/components`
+  - `ArticleList.svelte`: 위의 보완사항을 적용
