@@ -165,3 +165,16 @@ postApi(options);
 
 `refresh_token`이 만료되었다면 **isRefresh store**로 체크해서 `access_token` 발급을 거부함
 ![](attachments/Pasted%20image%2020231111201330.png)
+
+
+## 8. 인증구현 - 컴포넌트
+
+---
+
+- `Derived`: 이미 만들어진 store를 참조해서 새로운 값을 리턴하는 형태의 스토어
+
+- `class:main-menu-selected={url==='/login'}`: `url`이 `/login`일 때 `main-menu-selected` css 적용
+
+- refresh_token 위치
+    -  개발자모드 - Application - Storage - Cookies - http://localhost:5173
+
