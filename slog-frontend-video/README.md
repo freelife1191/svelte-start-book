@@ -50,3 +50,6 @@ $ npm install
 ```bash
 $ npm run dev
 ```
+
+3. 불필요한 파일제거
+`src` 디렉토리 내에 `App.svelte`, `main.js`를 제외하고 모두 삭제
