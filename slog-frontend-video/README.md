@@ -58,3 +58,26 @@ $ npm run dev
    https://github.com/freeseamew/slog-with-tailwindcss
 
 CSS 적용
+
+
+## 4. 라우터 설정
+
+---
+
+1. tinro 설치
+```bash
+$ npm i -D tinro
+```
+
+2. pages 및 router 추가
+- `src/pages/Articles.svelte`
+- `src/pagesComments.svelte
+- `src/pages/Login.svelte`
+- `src/pages/Register.svelte`
+- `src/pages/notFound.svelte`
+- `src/router.svelte`
+
+3. App.svelte, main.js, main.css 수정
+- `src/App.svelte`
+- `main.js`
+- `styles/main.css`
