@@ -178,3 +178,26 @@ postApi(options);
 - refresh_token 위치
     -  개발자모드 - Application - Storage - Cookies - http://localhost:5173
 
+
+## 9. 글 목록 구현
+
+---
+
+- 서버 페이지 요청 URL: http://localhost:3000/articles?pageNumber=1
+
+### 1. 무한 스크롤 페이지 기능 구현
+
+- `src/stores/index.js`
+    - `currentArticlePage`
+    - `articles`
+- `src/components`
+    - `Article.svelte`
+    - `ArticleList.svelte`
+
+- **onScroll**
+    -  `e.target.scrollHeight`: 브라우저의 스크롤 높이
+    - `e.target.clientHeight`: 브라우저의 화면 높이
+    - `e.target.scrollTop`: 브라우저에서 현재 스크롤 위치
+- 목록에 추가
+    - `realHeight`: 실제 스크롤 사이즈
+    - `triggerHeight`: 다음 페이지가 호출된 스크롤 위치(`realHeight * 0.7`)

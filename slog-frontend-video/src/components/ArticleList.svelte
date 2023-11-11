@@ -1,13 +1,52 @@
 <script>
-  import Article from "./Article.svelte"
-  import ArticleLoading from "./ArticleLoading.svelte"
+  import { onMount } from 'svelte'
+  import { articles, currentArticlesPage } from '../stores'
+  import Article from './Article.svelte'
+
+  let component
+  let element
+
+  onMount(() => {
+    articles.resetArticles()
+    articles.fetchArticles()
+  })
+
+  $: {
+    if(component) {
+      element = component.parentNode
+      element.addEventListener('scroll', onScroll)
+      element.addEventListener('resize', onScroll)
+    }
+  }
+
+  const onScroll = (e) => {
+    const scrollHeight = e.target.scrollHeight
+    const clientHeight = e.target.clientHeight
+    const scrollTop = e.target.scrollTop
+    const realHeight = scrollHeight - clientHeight
+    const triggerHeight = realHeight * 0.7
+
+    const triggerComputed = () => {
+      return scrollTop > triggerHeight
+    }
+
+    const scrollTrigger = () => {
+      return triggerComputed()
+    }
+
+    if(scrollTrigger()) {
+      currentArticlesPage.increPage()
+    }
+  }
 </script>
 
 <!-- slog-list-wrap start-->
-<div class="slog-list-wrap">
+<div class="slog-list-wrap infiniteTarget" bind:this={component} >
   <ul class="slog-ul">
-    <li class="mb-5">
-      <Article/>
-    </li>
+    {#each $articles.articleList as article, index}
+      <li class="mb-5" >
+        <Article {article} />
+      </li>
+    {/each}
   </ul>
-</div>
+</div><!-- slog-list-wrap end-->

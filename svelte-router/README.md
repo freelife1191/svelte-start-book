@@ -152,3 +152,5 @@ router.location.hash.clear(); //URL: /foo
 ```
 
 - **tinro 기능 더 알아보기**: https://github.com/AlexxNB/tinro
+
+
