@@ -53,3 +53,8 @@ $ npm run dev
 
 3. 불필요한 파일제거
 `src` 디렉토리 내에 `App.svelte`, `main.js`를 제외하고 모두 삭제
+
+4. Component 생성 및 Style Tag 적용
+   https://github.com/freeseamew/slog-with-tailwindcss
+
+CSS 적용

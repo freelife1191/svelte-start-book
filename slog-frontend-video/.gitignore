@@ -15,6 +15,9 @@ public/build
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+# code style
+!.idea/codeStyles/codeStyleConfig.xml
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
