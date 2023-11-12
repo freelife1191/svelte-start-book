@@ -283,3 +283,15 @@ postApi(options);
   - `decreArticleCommentCount`: 코멘트 개수 감소 처리
   - `setComments.addComment`: 코멘트 개수 증가 처리 추가
   - `setComments.deleteComment`: 코멘트 개수 감소 처리 추가
+
+
+## 13. '좋아요' 기능 구현
+
+---
+
+### 게시글 좋아요/좋아요 취소 기능 추가
+- `src/stores/index.js`
+  - `likeArticle`: 게시글 좋아요 스토어 기능
+  - `cancelLikeArticle`: 게시글 좋아요 취소 스토어 기능
+- `src/components`
+  - `Article.svelte`: 게시글 좋아요/좋아요 취소 기능 추가
