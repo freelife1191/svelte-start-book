@@ -343,3 +343,7 @@ yup.object().shape({
   - `validates.js`: 폼검증을 위한 유틸 추가
 - `src/components`
   - `AuthLogin.svelte`: 로그인 이메일/비밀번호 Validation 검증 기능 추가
+
+### 회원가입 Form Validation 검증 기능 추가
+- `src/components`
+  -  `AuthRegister.svelte`: 로그인 이메일/비밀번호 Validation 검증 기능 추가
