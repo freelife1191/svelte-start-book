@@ -3,16 +3,26 @@
 
   import { onMount } from 'svelte'
   import { router, meta } from 'tinro'
-  import { articleContent } from '../stores'
+  import { articleContent, comments, isLogin } from '../stores'
 
   const route = meta()
   const articleId = Number(route.params.id)
 
+  let values = {
+    formContent: ''
+  }
+
   onMount(() => {
     articleContent.getArticle(articleId)
+    comments.fetchComments(articleId)
   })
 
   const goArticles = () => router.goto(`/articles`)
+
+  const onAddComment = async () => {
+    await comments.addComment(articleId, values.formContent)
+    values.formContent = ''
+  }
 </script>
 
 <!-- slog-comment-wrap start-->
@@ -36,16 +46,20 @@
     <div class="commnet-list-box ">
       <h1 class="comment-title">Comments</h1>
       <ul class="my-5">
-        <Comment />
+        {#each $comments as comment, index}
+          <Comment {comment} {articleId} />
+        {/each}
       </ul>
     </div>
 
-    <div class="comment-box-bottom ">
-      <textarea id="message" rows="5" class="slog-content-textarea " placeholder="내용을 입력해 주세요."></textarea>
-      <div class="button-box-full">
-        <button class="button-base" >입력</button>
+    {#if $isLogin}
+      <div class="comment-box-bottom ">
+        <textarea id="message" rows="5" class="slog-content-textarea " placeholder="내용을 입력해 주세요." bind:value={values.formContent}></textarea>
+        <div class="button-box-full">
+          <button class="button-base" on:click={onAddComment} >입력</button>
+        </div>
       </div>
-    </div>
+    {/if}
   </div><!-- slog-comment-box end -->
 
 </div><!-- slog-comment-wrap end -->

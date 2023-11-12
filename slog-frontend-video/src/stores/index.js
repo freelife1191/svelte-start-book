@@ -208,6 +208,40 @@ function setArticles() {
     }
   }
 
+  /**
+   * 코멘트 개수 증가
+   * @param articleId
+   */
+  const increArticleCommentCount = (articleId) => {
+    update(datas => {
+      const newArticleList = datas.articleList.map(article => {
+        if(article.id === articleId) {
+          article.commentCount = article.commentCount + 1
+        }
+        return article
+      })
+      datas.articleList = newArticleList
+      return datas
+    })
+  }
+
+  /**
+   * 코멘트 개수 감소
+   * @param articleId
+   */
+  const decreArticleCommentCount = (articleId) => {
+    update(datas => {
+      const newArticleList = datas.articleList.map(article => {
+        if(article.id === articleId) {
+          article.commentCount = article.commentCount - 1
+        }
+        return article
+      })
+      datas.articleList = newArticleList
+      return datas
+    })
+  }
+
   return {
     subscribe,
     fetchArticles,
@@ -219,6 +253,8 @@ function setArticles() {
     closeEditModeArticle,
     updateArticle,
     deleteArticle,
+    increArticleCommentCount,
+    decreArticleCommentCount,
   }
 }
 
@@ -286,7 +322,77 @@ function setArticleContent() {
  * 특정 게시물의 코멘트들을 담음
  * 코멘트 추가, 수정, 삭제 등을 처리하는 사용자정의 메소드를 가짐
  */
-function setComments() {}
+function setComments() {
+  const { subscribe, update, set } = writable([])
+
+  const fetchComments = async (id) => {
+    try {
+      const options = {
+        path: `/comments/${id}`
+      }
+
+      const getDatas = await getApi(options)
+      set(getDatas.comments)
+    }
+    catch(error) {
+      alert('오류가 발생했습니다 다시 시도해 주세요.')
+    }
+  }
+
+  const addComment = async (articleId, commentContent) => {
+
+    const access_token = get(auth).Authorization
+
+    try {
+      const options = {
+        path: '/comments',
+        data: {
+          articleId: articleId,
+          content: commentContent,
+        },
+        access_token: access_token,
+      }
+
+      const newData = await postApi(options)
+      update(datas => [...datas, newData])
+      articles.increArticleCommentCount(articleId)
+    }
+    catch(error) {
+      alert('오류가 발생했습니다. 다시 시도해 주세요.')
+    }
+  }
+
+  const deleteComment = async(commentId, articleId) => {
+
+    const access_token = get(auth).Authorization
+
+    try {
+      const options = {
+        path: '/comments',
+        data: {
+          commentId: commentId,
+          articleId: articleId,
+        },
+        access_token: access_token,
+      }
+
+      await delApi(options)
+      update(datas => datas.filter(comment => comment.id !== commentId))
+      articles.decreArticleCommentCount(articleId)
+      alert('커멘트가 삭제 되었습니다.')
+    }
+    catch(error) {
+      alert('삭제 중 오류가 발생했습니다. 다시 시도해 주세요.')
+    }
+  }
+
+  return {
+    subscribe,
+    fetchComments,
+    addComment,
+    deleteComment,
+  }
+}
 
 /**
  * 로그인된 유저의 유저정보(_id, email)를 담음

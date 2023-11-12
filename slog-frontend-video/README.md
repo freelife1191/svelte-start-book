@@ -270,3 +270,16 @@ postApi(options);
 - `src/components`
   - `CommentList.svelte`: 코멘트 팝업 화면에 코멘트 내용 가져와서 보여주고 글 목록 보기 클릭시 글 목록으로 이동하는 기능 추가
 
+### 코멘트 목록/추가/삭제 기능 추가
+- `src/stores/index.js`
+  - `setComments`: 코멘트 목록 조회/추가/삭제 스토어 기능 추가
+- `src/components`
+  - `Comment.svelte`: 코멘트 내용을 출력하고 삭제 버튼 클릭시 삭제 처리하는 기능 추가
+  - `CommentList.svelte`: 코멘트 리스트를 출력하고 코멘트를 추가하는 기능 추가
+
+### 코멘트 추가/삭제시 카운트 증가/감소 처리
+- `src/stores/index.js`
+  - `increArticleCommentCount`: 코멘트 개수 증가 처리
+  - `decreArticleCommentCount`: 코멘트 개수 감소 처리
+  - `setComments.addComment`: 코멘트 개수 증가 처리 추가
+  - `setComments.deleteComment`: 코멘트 개수 감소 처리 추가
