@@ -321,3 +321,25 @@ postApi(options);
 ### 로그아웃시 모두 보기로 자동으로 이동
 - `src/stores/index.js`
   - `setAuth.logout`: `articlesMode.changeMode(ALL)` 코드를 수정
+
+
+## 15. 앱 완성도 높이기1 - 폼검증
+---
+
+폼검증을 위한 `yup` 라이브러리 설치
+```bash
+$ npm i yup
+```
+
+`yup` 사용 예
+```js
+yup.object().shape({
+  formName: yup.string().required('이메일을 입력해주세요.').email('이메일 형식이 잘못 되었습니다.').label('이메일'),
+})
+```
+
+### 로그인 Form Validation 검증 기능 추가
+- `src/utils`
+  - `validates.js`: 폼검증을 위한 유틸 추가
+- `src/components`
+  - `AuthLogin.svelte`: 로그인 이메일/비밀번호 Validation 검증 기능 추가
