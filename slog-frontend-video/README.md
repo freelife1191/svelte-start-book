@@ -402,3 +402,35 @@ $ npm i dayjs
 ### 페이지네이션에 따른 게시글 중복 제거를 위한 유니크 처리 로직 추가
 - `src/stores/index.js`
   - `setArticles.fetchArticles`: `uniqueArr` 게시글 유니크 처리 로직을 추가하여 중복 제거
+
+
+## 19. 앱 완성도 높이기 5 - 페이지네이션 컴포넌트화
+
+---
+
+페이지네이션과 관련된 기능을 다른 컴포넌트로 분리
+
+### InfiniteScroll 컴포넌트 분리
+- `src/components`
+  - `InfiniteScroll.svelte`: 코드 재사용을 위한 무한 스크롤 기능 컴포넌트 분리
+  - `ArticleList.svelte`: 무한 스크롤 기능 `InfiniteScroll.svelte`로 코드 이동
+
+### InfiniteScroll 컴포넌트로 넘겨질 값
+- `totalPageCount`: 전체 페이지 수
+- `currentPage`: 현재 페이지
+- `pageLock`: 다음페이지 호출에 대한 잠금상태
+- `loading`: 로딩중 상태
+- `domTarget`: 스크롤정보를 얻을 돔 영역
+- `articlePageLock.set(true)`: `pageLock` 설정하는 메소드
+- `currentArticlesPage.increPage()`: 다음 페이지 호출
+
+### 이벤트 처리
+- `dispatch`: 하위 컴포넌트에서 상위 컴포넌트의 이벤트를 실행시키는 역할
+
+- `src/components`
+  - `ArticleList.svelte`: `on:onPageLock`, `on:increPage` 추가
+  - `InfiniteScroll.svelte`: `onScroll` 로직을 `dispatch` 로직으로 수정
+
+### 역할을 다한 스크롤을 브라우저 메모리에서 해제하여 PC에 주는 부담 감소
+- `src/components`
+  - `InfiniteScroll.svelte`: `onDestroy`추가
