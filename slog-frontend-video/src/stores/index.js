@@ -117,11 +117,27 @@ function setArticles() {
     }
   }
 
+  const openMenuPopup = (id) => {
+    update(datas => {
+      datas.menuPopup = id
+      return datas
+    })
+  }
+
+  const closeMenuPopup = () => {
+    update(datas => {
+      datas.menuPopup = ''
+      return datas
+    })
+  }
+
   return {
     subscribe,
     fetchArticles,
     resetArticles,
     addArticle,
+    openMenuPopup,
+    closeMenuPopup,
   }
 }
 

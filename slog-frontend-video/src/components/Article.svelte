@@ -1,5 +1,25 @@
 <script>
-  export let article;
+  export let article
+  import { articles, auth } from '../stores'
+
+  let isViewMenu = false
+
+  $: {
+    if($articles.menuPopup === article.id) {
+      isViewMenu = true
+    }
+    else {
+      isViewMenu = false
+    }
+  }
+
+  const onToggleMenuPopup = (id) => {
+    if(isViewMenu === true) {
+      articles.closeMenuPopup()
+      return;
+    }
+    articles.openMenuPopup(id)
+  }
 </script>
 
 <!-- slog-content-box start-->
@@ -10,15 +30,17 @@
       <p class="p-date" >{article.createdAt}</p>
     </div>
     <div class="content-box-header-inner-right">
-      <button class="button-base-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
-      </button>
-      <div class="drop-menu-box">
-        <ul>
-          <li><button href="#" class="drop-menu-button" >수정</button></li>
-          <li><button href="#" class="drop-menu-button" >삭제</button></li>
-        </ul>
-      </div>
+      {#if article.userId === $auth.id}
+        <button class="button-base-circle" on:click={() => onToggleMenuPopup(article.id)}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg>
+        </button>
+        <div class="drop-menu-box " class:block={isViewMenu}>
+          <ul>
+            <li><button href="#" class="drop-menu-button" >수정</button></li>
+            <li><button href="#" class="drop-menu-button" >삭제</button></li>
+          </ul>
+        </div>
+      {/if}
     </div>
   </div>
 

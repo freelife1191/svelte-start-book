@@ -223,3 +223,16 @@ postApi(options);
   - `ArticleAddForm.svelte`: 게시글 작성 시 서버에 등록되어 리스트에 보여짐
 - `src/pages`
   - `Articles.svelte`: 로그인 시에만 게시글 작성 폼이 보임
+
+
+## 11. 글 수정 및 삭제 구현
+
+---
+
+### 마우스 클릭시 수정/삭제 팝업 토글
+- `src/stores/index.js`
+  - `openMenuPopup`
+  - `closeMenuPopup`
+- `src/components`
+  - `Article.svelte`
+
