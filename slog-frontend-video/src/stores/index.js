@@ -131,6 +131,22 @@ function setArticles() {
     })
   }
 
+  const openEditModeArticle = (id) => {
+    articles.closeMenuPopup()
+
+    update(datas => {
+      datas.editMode = id
+      return datas
+    })
+  }
+
+  const closeEditModeArticle = () => {
+    update(datas => {
+      datas.editMode = ''
+      return datas
+    })
+  }
+
   return {
     subscribe,
     fetchArticles,
@@ -138,6 +154,8 @@ function setArticles() {
     addArticle,
     openMenuPopup,
     closeMenuPopup,
+    openEditModeArticle,
+    closeEditModeArticle,
   }
 }
 

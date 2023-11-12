@@ -236,3 +236,11 @@ postApi(options);
 - `src/components`
   - `Article.svelte`
 
+### 수정 버튼 클릭시 EditForm 열기
+- `src/stores/index.js`
+  - `openEditModeArticle`
+  - `closeEditModeArticle`
+- `src/components`
+  - `Article.svelte`: 수정 버튼 클릭시 EditForm 열기 기능 추가
+  - `ArticleEditForm.svelte`: EditForm에 조회된 데이터 채워서 보여주는 기능 추가
+
