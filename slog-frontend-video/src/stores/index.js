@@ -1,6 +1,7 @@
 import { writable, get, derived } from "svelte/store"
 import { getApi, putApi, delApi, postApi } from "../service/api.js"
 import { router } from "tinro"
+import { ALL, LIKE, MY } from '../utils/constant'
 
 /**
  * 게시물을 스크롤 할 때 페이지가 증가되는 부분을 다룸
@@ -39,7 +40,25 @@ function setArticles() {
 
     loadingArticle.turnOnLoading()
     const currentPage = get(currentArticlesPage)
-    let path = `/articles/?pageNumber=${currentPage}`
+    // let path = `/articles/?pageNumber=${currentPage}`
+    let path = ''
+    const mode = get(articlesMode)
+
+    // 선택된 모드에 따라 path 설정
+    switch(mode) {
+      case ALL:
+        path=`/articles/?pageNumber=${currentPage}`
+        break
+      case LIKE:
+        path=`/likes/?pageNumber=${currentPage}`
+        break
+      case MY:
+        path=`/articles/?pageNumber=${currentPage}&mode=${mode}`
+        break
+      default:
+        path=`/articles/${currentPage}`
+        break
+    }
 
     try {
 
@@ -565,7 +584,6 @@ function setAuth() {
     }
   }
 
-
   return {
     subscribe,
     refresh,
@@ -580,7 +598,20 @@ function setAuth() {
  * 보기의 상태를 나타냄
  * 보기모드는 모두보기, 좋아요보기, 내글보기의 3가지를 가질 예정
  */
-function setArticlesMode() {}
+function setArticlesMode() {
+  const { subscribe, update, set } = writable(ALL)
+
+  const changeMode = async (mode) => {
+    set(mode)
+    articles.resetArticles()
+    await articles.fetchArticles()
+  }
+
+  return {
+    subscribe,
+    changeMode,
+  }
+}
 
 /**
  * 로그인 상태인지 아닌지를 파악함

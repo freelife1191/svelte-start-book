@@ -295,3 +295,25 @@ postApi(options);
   - `cancelLikeArticle`: 게시글 좋아요 취소 스토어 기능
 - `src/components`
   - `Article.svelte`: 게시글 좋아요/좋아요 취소 기능 추가
+
+
+## 14. 보기모드 변경 구현
+
+---
+
+1. 전체글 보기
+  - localhost:3000/articles/?pageNumber=1
+2. 내가 작성한 글
+  - localhost:3000/articles/?pageNumber=1&mode='my'
+3. 상수 추가
+  - `ALL`: 모든글보기
+  - `MY`: 내글보기
+  - `LIKE`: 좋아요글 보기
+
+- `src/utils`
+  - `constant.js`: 상수 파일 추가
+- `src/stores/index.js`
+  - `setArticlesMode`: 보기모드(모두보기, 좋아요보기, 내글보기) 상태 설정
+  - `setArticles.fetchArticles`: 선택된 모드에 따라 path 설정
+- `src/components`
+  - `ArticleHeader.svelte`: 선택된 모드에 따라 해당 화면이 호출됨
