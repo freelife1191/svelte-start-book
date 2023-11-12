@@ -7,6 +7,8 @@
 
   let isViewMenu = false
 
+  const currentMode = $router.path.split("/")[2]
+
   $: {
     if($articles.menuPopup === article.id) {
       isViewMenu = true
@@ -35,7 +37,8 @@
   }
 
   const goComment = (id) => {
-    router.goto(`/articles/comments/${id}`)
+    // router.goto(`/articles/comments/${id}`)
+    router.goto(`/articles/${currentMode}/comments/${id}`)
   }
 
   const onLike = (id) => {

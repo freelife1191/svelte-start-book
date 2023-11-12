@@ -373,3 +373,22 @@ $ npm i dayjs
   - `Article.svelte`: 게시글 등록 일시에 `dateView` 유틸 적용
   - `CommentList.svelte`: 코멘트 리스트 일시에 `dateView` 유틸 적용
   - `Comment.svelte`: 코멘트 등록 일시에 `dateView` 유틸 적용
+
+
+## 17. 앱 완성도 높이기 3 - URL을 통한 보기모드 변경
+
+---
+
+- http://localhost:3011/articles/all
+- http://localhost:3011/articles/like
+- http://localhost:3011/articles/my
+
+### URL 주소로 이동해서 제어하기 위한 설정 추가
+
+- `src/route.svelte`: 로그인 상태일때만 my, like path로 이동되도록 로그아웃일 경우에는 모두보기로
+- `src/components`
+  - `ArticleList.svelte`: 현재모드를 확인하고 모드를 적용시켜주는 로직 추가
+  - `ArticleHeader.svelte`: `router.goto`를 이용해 선택된 url로 이동하도록 수정
+  - `Article.svelte`: 커멘트 이동 url에 `currentMode`를 끼워넣음
+  - `CommentList.svelte`: 이전 목록 가기에도 `currentMode` 적용
+
