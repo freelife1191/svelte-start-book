@@ -351,3 +351,7 @@ yup.object().shape({
 ### 게시글 입력 Form Validation 검증 기능 추가
 - `src/components`
   -  `ArticleAddForm.svelte`: 게시글 입력 Form Validation 검증 기능 추가
+
+### 코멘트 입력 Form Validation 검증 기능 추가
+- `src/components`
+  -  `CommentList.svelte`: 게시글 입력 Form Validation 검증 기능 추가
