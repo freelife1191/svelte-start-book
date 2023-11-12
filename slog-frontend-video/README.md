@@ -263,3 +263,10 @@ postApi(options);
 - `src/pages`
   - `Articles.svelte`: 게시글 하위에 코멘트 페이지 배치
   - `Comments.svelte`: 게시글 하위에 배치된 코멘트 리스트 페이지
+
+### 코멘트 팝업화면에 실제 코멘트 내용 보여주기, 글 목록 보기 클릭시 글 목록으로 이동
+- `src/stores/index.js`
+  - `setArticleContent`: 목록 형태의 여러게시물이 아닌 게시물 하나의 정보만을 담는 함수 구현
+- `src/components`
+  - `CommentList.svelte`: 코멘트 팝업 화면에 코멘트 내용 가져와서 보여주고 글 목록 보기 클릭시 글 목록으로 이동하는 기능 추가
+

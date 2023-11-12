@@ -247,7 +247,40 @@ function setLoadingArticle() {
 /**
  * 목록 형태의 여러게시물이 아닌 게시물 하나의 정보만을 담음
  */
-function setArticleContent() {}
+function setArticleContent() {
+  let initValues = {
+    id: '',
+    userId: '',
+    userEmail: '',
+    content: '',
+    createdAt: '',
+    commentCount: 0,
+    likeCount: 0,
+    likeUsers: [],
+  }
+
+  const { subscribe, set } = writable({...initValues})
+
+  const getArticle = async (id) => {
+
+    try {
+      const options = {
+        path: `/articles/${id}`
+      }
+
+      const getData = await getApi(options)
+      set(getData)
+    }
+    catch(error) {
+      alert('오류가 발생했습니다. 다시 시도해 주세요.')
+    }
+  }
+
+  return {
+    subscribe,
+    getArticle,
+  }
+}
 
 /**
  * 특정 게시물의 코멘트들을 담음

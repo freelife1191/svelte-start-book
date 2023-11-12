@@ -1,5 +1,18 @@
 <script>
   import Comment from "./Comment.svelte"
+
+  import { onMount } from 'svelte'
+  import { router, meta } from 'tinro'
+  import { articleContent } from '../stores'
+
+  const route = meta()
+  const articleId = Number(route.params.id)
+
+  onMount(() => {
+    articleContent.getArticle(articleId)
+  })
+
+  const goArticles = () => router.goto(`/articles`)
 </script>
 
 <!-- slog-comment-wrap start-->
@@ -8,15 +21,15 @@
   <div class="slog-comment-box" >
     <div class="comment-box-header ">
       <div class="content-box-header-inner-left" >
-        <p class="p-user" >freeseamew</p>
-        <p class="p-date" >2022-11-11</p>
+        <p class="p-user" >{$articleContent.userEmail}</p>
+        <p class="p-date" >{$articleContent.createdAt}</p>
       </div>
     </div>
 
     <div class="comment-box-main ">
-      <p class="whitespace-pre-line">Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris labore nisi amet do dolor eu fugiat consectetur elit cillum esse. Pariatur occaecat nisi laboris tempor laboris eiusmod qui id Lorem esse commodo in. Exercitation aute dolore deserunt culpa consequat elit labore incididunt elit anim.</p>
+      <p class="whitespace-pre-line">{$articleContent.content}</p>
       <div class="inner-button-box ">
-        <button class="button-base" >글 목록 보기</button>
+        <button class="button-base" on:click={goArticles} >글 목록 보기</button>
       </div>
     </div>
 
