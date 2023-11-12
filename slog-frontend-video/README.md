@@ -317,3 +317,7 @@ postApi(options);
   - `setArticles.fetchArticles`: 선택된 모드에 따라 path 설정
 - `src/components`
   - `ArticleHeader.svelte`: 선택된 모드에 따라 해당 화면이 호출됨
+
+### 로그아웃시 모두 보기로 자동으로 이동
+- `src/stores/index.js`
+  - `setAuth.logout`: `articlesMode.changeMode(ALL)` 코드를 수정
