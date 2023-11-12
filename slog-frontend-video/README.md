@@ -251,3 +251,15 @@ postApi(options);
 - `src/components`
   - `Article.svelte`: 삭제 버튼 클릭시 서버와 통신하여 삭제처리
   - `ArticleEditForm.svelte`: 수정 완료 버튼 클릭시 서버와 통신하여 수정처리
+
+
+## 12. 코멘트 관련 기능 구현
+
+---
+
+### 코멘트 버튼 클릭시 코멘트 팝업 오픈
+- `src/components`
+  - `Article.svelte`: 코멘트 버튼 클릭시 코멘트 페이지 오픈 요청
+- `src/pages`
+  - `Articles.svelte`: 게시글 하위에 코멘트 페이지 배치
+  - `Comments.svelte`: 게시글 하위에 배치된 코멘트 리스트 페이지

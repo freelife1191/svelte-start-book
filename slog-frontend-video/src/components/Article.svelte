@@ -2,6 +2,7 @@
   export let article
   import { articles, auth } from '../stores'
   import ArticleEditForm from './ArticleEditForm.svelte'
+  import { router } from 'tinro'
 
   let isViewMenu = false
 
@@ -30,6 +31,10 @@
     if(confirm('삭제 하시겠습니까?')) {
       articles.deleteArticle(id)
     }
+  }
+
+  const goComment = (id) => {
+    router.goto(`/articles/comments/${id}`)
   }
 </script>
 
@@ -79,7 +84,7 @@
         </button> -->
       </div>
       <div class="button-box-inner-right  ">
-        <button class="flex">
+        <button class="flex" on:click={() => goComment(article.id)}>
           <p class="text-base">{article.commentCount}</p>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-6 w-6 ml-1" >
             <path d="M20 2H4c-1.103 0-2 .897-2 2v18l5.333-4H20c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm0 14H6.667L4 18V4h16v12z"></path>
