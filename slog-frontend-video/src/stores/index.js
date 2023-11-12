@@ -84,7 +84,10 @@ function setArticles() {
         }
         else {
           const newArticles = [...datas.articleList, ...newData.articleList]
-          datas.articleList = newArticles
+          // datas.articleList = newArticles
+          // 게시글이 추가되기 전에 계산된 페이지네이션과 게시글이 추가된 후에 계산된 페이지네이션 결과가 달라서 발생하는 중복 데이터 제거
+          const uniqueArr = newArticles.filter((arr, index, callback) => index === callback.findIndex(t => t.id === arr.id))
+          datas.articleList = uniqueArr
           datas.totalPageCount = newData.totalPageCount
         }
 

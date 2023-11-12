@@ -392,3 +392,13 @@ $ npm i dayjs
   - `Article.svelte`: 커멘트 이동 url에 `currentMode`를 끼워넣음
   - `CommentList.svelte`: 이전 목록 가기에도 `currentMode` 적용
 
+
+## 18. 앱 완성도 높이기 4 - 게시글 중복 제거
+
+---
+
+게시글이 추가되기 전에 계산된 페이지네이션과 게시글이 추가된 후에 계산된 페이지네이션 결과가 달라서 중복이 발생
+
+### 페이지네이션에 따른 게시글 중복 제거를 위한 유니크 처리 로직 추가
+- `src/stores/index.js`
+  - `setArticles.fetchArticles`: `uniqueArr` 게시글 유니크 처리 로직을 추가하여 중복 제거
