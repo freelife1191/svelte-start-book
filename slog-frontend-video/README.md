@@ -1,4 +1,4 @@
-# 11. Svelte REST API Project
+# 11. 실전 프로젝트(2) - SNS 서비스 만들기
 
 https://www.youtube.com/playlist?list=PLEU9vwKdoCqSOCmW55QZM2k2RE3EKChHY
 
