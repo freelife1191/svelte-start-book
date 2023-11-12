@@ -244,3 +244,10 @@ postApi(options);
   - `Article.svelte`: 수정 버튼 클릭시 EditForm 열기 기능 추가
   - `ArticleEditForm.svelte`: EditForm에 조회된 데이터 채워서 보여주는 기능 추가
 
+### 수정/삭제 서버와 통신하여 처리하기
+- `src/stores/index.js`
+  - `updateArticle`
+  - `deleteArticle`
+- `src/components`
+  - `Article.svelte`: 삭제 버튼 클릭시 서버와 통신하여 삭제처리
+  - `ArticleEditForm.svelte`: 수정 완료 버튼 클릭시 서버와 통신하여 수정처리

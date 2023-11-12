@@ -1,11 +1,20 @@
 <script>
   export let article
+  import { articles } from '../stores'
 
   let articleValue = {
     id: article.id,
     userEmail: article.userEmail,
     createdAt: article.createdAt,
     content:article.content,
+  }
+
+  const onCloseEditModeArticle = () => {
+    articles.closeEditModeArticle()
+  }
+
+  const onUpdateArticle = () => {
+    articles.updateArticle(articleValue)
   }
 </script>
 <!-- slog-content-edit-form start-->
@@ -23,8 +32,8 @@
 
   <div class="content-box-bottom">
     <div class="button-box">
-      <button class="button-base">완료</button>
-      <button class="button-base">취소</button>
+      <button class="button-base" on:click={onUpdateArticle}>완료</button>
+      <button class="button-base" on:click={onCloseEditModeArticle}>취소</button>
     </div>
   </div>
 </div>
