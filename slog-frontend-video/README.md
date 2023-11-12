@@ -355,3 +355,21 @@ yup.object().shape({
 ### 코멘트 입력 Form Validation 검증 기능 추가
 - `src/components`
   -  `CommentList.svelte`: 게시글 입력 Form Validation 검증 기능 추가
+
+
+## 16. 앱 완성도 높이기 2 - 날짜보기
+
+---
+
+날짜 표시를 위한 `dayjs` 라이브러리 설치
+```bash
+$ npm i dayjs
+```
+
+### 날짜를 직관적으로 표현하기
+- `src/utils`
+  - `date.js`: `dayjs`에 대한 설정들 작성한 유틸
+- `src/components`
+  - `Article.svelte`: 게시글 등록 일시에 `dateView` 유틸 적용
+  - `CommentList.svelte`: 코멘트 리스트 일시에 `dateView` 유틸 적용
+  - `Comment.svelte`: 코멘트 등록 일시에 `dateView` 유틸 적용
