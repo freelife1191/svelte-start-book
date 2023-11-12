@@ -347,3 +347,7 @@ yup.object().shape({
 ### 회원가입 Form Validation 검증 기능 추가
 - `src/components`
   -  `AuthRegister.svelte`: 로그인 이메일/비밀번호 Validation 검증 기능 추가
+
+### 게시글 입력 Form Validation 검증 기능 추가
+- `src/components`
+  -  `ArticleAddForm.svelte`: 게시글 입력 Form Validation 검증 기능 추가
